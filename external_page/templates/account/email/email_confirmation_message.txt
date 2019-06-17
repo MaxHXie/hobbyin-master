@@ -1,0 +1,9 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hey there from us at {{ site_name }}!
+
+You are getting this email because you have registered this email with us at HobbyIn
+
+To verify your email address, click on the following link: {{ activate_url }}
+
+{% endblocktrans %}{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}We from {{ site_name }} wish you a great day!
+{{ site_domain }}{% endblocktrans %}

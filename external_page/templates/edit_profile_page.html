@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block bodyclass %}landing-page sidebar-collapse{% endblock bodyclass %}
+{% block body %}
+    {% include "html_parts/message_banner.html" %}
+    <!-- Navbar -->
+    {% include "html_parts/navbar1.html" with color_on_scroll="none" navbar_class=""%}
+    <div class="wrapper">
+        <div class="section section-contact-us text-center">
+            <div class="container">
+                <h2 class="title">Uppdate your profile</h2>
+                <div class="row">
+                    <div class="col-lg-6 text-center col-md-8 ml-auto mr-auto">
+                        {% include 'djangospam/form.html' %}
+                        <form id="edit_profile_form" action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% with field.field.widget.input_type as input_type %}
+                            {% if input_type == 'text' or input_type == 'number' %}
+                                <div id="inputs">
+                                    {% if field.name == 'first_name' %}
+                                        <div><strong>First name</strong></div>
+                                    {% elif field.name == 'last_name' %}
+                                        <div><strong>Last name</strong></div>
+                                    {% elif field.name == 'telephone' %}
+                                        <div><strong>Phone number</strong></div>
+                                    {% elif field.name == 'city' %}
+                                        <div><strong>City</strong></div>
+                                    {% elif field.name == 'city_district' %}
+                                        <div><strong>Municipality</strong></div>
+                                    {% elif field.name == 'zip_code' %}
+                                        <div><strong>Zip code</strong></div>
+                                    {% endif %}
+
+                                    {% if field.errors %}
+                                        <span style="color:red; float:center;">{{ field.errors|first }}</span>
+                                        <div class="form-group has-danger">
+                                            <script type="text/javascript">
+                                                $(function(){
+                                                    $('#{{field.auto_id}}').addClass('form-control-danger');
+                                                    $('#{{field.auto_id}}').attr('placeholder', '{{ field.errors|first }}');
+                                                });
+                                            </script>
+                                            {{ field }}
+                                        </div>
+                                    {% else %}
+                                        <div class="input-group input-lg">
+                                            <span class="input-group-addon">
+                                                {% if field.name == 'first_name' %}
+                                                    <i class="now-ui-icons users_circle-08"></i>
+                                                {% elif field.name == 'last_name' %}
+                                                    <i class="now-ui-icons users_circle-08"></i>
+                                                {% elif field.name == 'telephone' %}
+                                                    <i class="now-ui-icons tech_mobile"></i>
+                                                {% elif field.name == 'city' %}
+                                                    <i class="now-ui-icons location_world"></i>
+                                                {% elif field.name == 'city_district' %}
+                                                    <i class="now-ui-icons location_world"></i>
+                                                {% elif field.name == 'zip_code' %}
+                                                    <i class="now-ui-icons location_pin"></i>
+                                                {% endif %}
+                                            </span>
+                                            {{ field }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% elif input_type == "file" %}
+                                {% if field.name == "profile_picture" %}
+                                    <div class="textarea-container">
+                                        <h4> Upload a profile picture </h4>
+                                        {% if field.errors %}
+                                            <span style="color:red;">{{ field.errors|first }}</span>
+                                        {% endif %}
+                                            {{ field }}
+                                    </div>
+                                {% endif %}
+
+                            {% elif field.auto_id == 'id_description' %}
+                                <div class="textarea-container">
+                                    <div><strong>Short description</strong></div>
+                                    {% if field.errors %}
+                                        <span style="color:red;">{{ field.errors|first }}</span>
+                                    {% endif %}
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                            {% endwith %}
+                        {% endfor %}
+                        <div class="send-button">
+                            <input type="submit" class="btn btn-primary btn-round btn-block btn-lg" value="Change profile">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "html_parts/footer.html" %}
+    </div>
+{% endblock body %}

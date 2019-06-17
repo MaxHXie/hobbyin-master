@@ -1,0 +1,47 @@
+{% load static %}
+{% load i18n %}
+<footer class="footer footer-default">
+    <div class="container">
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'my_profile' %}"><strong>{% trans 'My profile' %}</strong></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'my_events' %}"><strong>{% trans 'My events' %}</strong></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'create_event' %}"><strong>{% trans 'Create event' %}</strong></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'all_events' %}">{% trans 'See all events' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'settings' %}">{% trans 'Account settingsr' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}">{% trans 'Log ut' %}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'account_login' %}"><strong>{% trans 'Log in' %}</strong></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'instructor_signup' %}"><strong>{% trans 'Registrer as account' %}</strong></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'all_events' %}"><strong>{% trans 'See all events' %}</strong></a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="copyright">
+            All rights reserved &copy;
+            <script>
+                document.write(new Date().getFullYear())
+            </script>,
+            <a href="{% url 'index' %}">HobbyIn</a>.
+        </div>
+    </div>
+</footer>

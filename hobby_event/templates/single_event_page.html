@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block bodyclass %}profile-page sidebar-collapse{% endblock bodyclass %}
+{% block body %}
+    <!-- Navbar -->
+    {% include "html_parts/navbar1.html" with color_on_scroll="400" navbar_class="navbar-transparent" %}
+    <!-- End Navbar -->
+    {% include "html_parts/message_banner.html" %}
+
+    <div class="wrapper">
+        {% if this_event %}
+            <div class="page-header page-header-small" filter-color="orange">
+                {% if this_event.is_hidden == False and this_event.is_active == True and this_event.is_accepted == True and this_event.has_happened == False %}
+                    <div class="page-header" data-parallax="true" style="background-color:rgba({{ this_event.event_color_red }}, {{ this_event.event_color_green }}, {{ this_event.event_color_blue }}, 1.0);"></div>
+                {% else %}
+                    <div class="page-header" data-parallax="true" style="background-color:rgba(200, 200, 200, 1.0);"></div>
+                {% endif %}
+                <div class="container">
+                    <div class="content-center">
+                        <h5 class="title">
+                            {% if this_event.is_active == False %}
+                                <strong>[NO LONGER ACTIVE]</strong>
+                            {% elif this_event.is_accepted == False %}
+                                <strong>[NOT PUBLISHED]</strong>
+                            {% elif this_event.is_hidden == True %}
+                                <strong>[LOCKED BY THE HOST]</strong>
+                            {% elif this_event.has_happened == True %}
+                                <strong>[EXPIRED]</strong>
+                            {% endif %}
+                        </h5>
+                        <h3 class="title">{{ this_event.event_name|title }}</h3>
+                        <p class="category" style="margin-top:10px;">
+                            {{ this_event.datetime|date:'d M H:i' }} | {{ this_event.address }} | {{ this_event.city_district }}/{{ this_event.city }}
+                            {% if this_event.location_name %}
+                                {{ this_event.location_name }}
+                            {% endif %}
+
+                        </p>
+                        <div class="content text-center">
+                            {% if this_event.price > 0 %}
+                                <div class="social-description">
+                                    <h2>{{ this_event.price }} kr</h2>
+                                </div>
+                            {% else %}
+                                <div class="social-description">
+                                    <h2>Free of charge</h2>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if this_user != this_event.event_host.user %}
+                <div class="section section-contact-us text-center">
+                    <div class="container">
+                        <div class="button-container">
+                          {% if this_user.customer or this_user.instructor %}
+                              {% if signed_up %}
+                                <button type="submit" class="btn btn-primary btn-round btn-block btn-lg" style="background-color:gray; opacity:1.0;" disabled>You have signed up for this event</button>
+                              {% else %}
+                                  <form action="{% url 'signup_for_event' this_event.id %}" method="POST">
+                                      {% csrf_token %}
+                                      <div class="send-button">
+                                          <input type="submit" class="btn btn-primary btn-round btn-block btn-lg" value="Anmäl dig" style="background-color:#2CA8FF;">
+                                      </div>
+                                  </form>
+                              {% endif %}
+                          {% else %}
+                              <a href="{% url 'customer_signup' %}"><button class="btn btn-primary btn-round btn-block btn-lg">Register an account</button></a>
+                          {% endif %}
+                        </div>
+                        {% if this_event.description %}
+                            <h3 class="title" id="about-event">Description</h3>
+                            <h5 class="description">{{ this_event.description }}</h5>
+                        {% endif %}
+                        <div id="event_signup" style="padding-top:20px">
+                        <div class="row">
+                            <div class="col-lg-6 text-center col-md-8 ml-auto mr-auto">
+                                {% if this_user.customer or this_user.instructor %}
+                                    {% if signed_up %}
+                                        <form action="{% url 'signup_for_event' this_event.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="send-button">
+                                                <input type="submit" class="btn btn-primary btn-round btn-block btn-lg" value="Deregister from this event" style="background-color:#bb4444;">
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="section">
+                <div class="container text-center">
+                    {% if this_user == this_event.event_host.user %}
+                        <div class="button-container">
+                            <a href="{% url 'event_participators' this_event.id %}" class="btn btn-primary btn-round btn-lg">See list of attendees</a>
+                            {% if this_event.is_hidden == False %}
+                                <a class="btn btn-primary btn-round btn-lg" onclick="show_hide_event_modal();" style="color:white; background-color:rgb(175,0,0);">Hide and lock the event</a>
+                            {% else %}
+                                <a class="btn btn-primary btn-round btn-lg" onclick="show_show_event_modal();" style="color:white; background-color:rgb(0,175,0);">Unlock the event</a>
+                            {% endif %}
+                            <a href="{% url 'edit_event' this_event.id %}" class="btn btn-primary btn-round btn-lg">Edit the event</a>
+                        </div>
+                        {% if this_event.description %}
+                            <h3 class="title" id="about-event">Description</h3>
+                            <h5 class="description">{{ this_event.description }}</h5>
+                        {% endif %}
+                    {% endif %}
+                    <div class="google-maps" style="margin-top:64px;">
+                        <iframe width="100%" height="450" frameborder="0" style="border:0;" src="https://www.google.com/maps/embed/v1/place?q={{ this_event.address }}, {{ this_event.city_district }}, {{ this_event.city }}&key=AIzaSyBAugpMqxaZ6qZZBtu9EUsDdp5ze695hEE" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="title">Host</h3>
+                    <a href="{% url 'profile_with_user' this_event.event_host.user.id %}">
+                        <div class="content-center" style="margin-bottom:9px;">
+                            <div class="photo-container">
+                                {% if this_event.event_host.profile_picture %}
+                                    <img src="{{ this_event.event_host.profile_picture.url }}">
+                                {% else %}
+                                    <img src="{% static 'external_page/assets/img/placeholder.png'%}">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <h5 class="text-center">{{ this_event.event_host.first_name }} {{ this_event.event_host.last_name }}</h5>
+                    </a>
+                </div>
+            </div>
+        {% elif error_message %}
+        <div class="page-header page-header-small" filter-color="orange">
+            <div class="page-header-image" data-parallax="true" style="background-image: url('{% static 'external_page/assets/img/bg5.jpg' %}');">
+            </div>
+            <div class="container">
+                <div class="content-center">
+                    <div class="photo-container">
+                        <img src="{% static 'external_page/assets/img/placeholder.png' %}">
+                    </div>
+                    <h3 class="title">{{ error_message }}</h3>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% include "html_parts/footer.html" %}
+    </div>
+
+    <!-- START show_hide_event_modal -->
+    <div class="modal fade modal-primary" id="hide_event_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color:#2CA8FF;">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                    </button>
+                    <div class="header header-primary text-center">
+                        <h4 class="card-title">{% trans 'Hide and lock the event' %}</h4>
+                    </div>
+                </div>
+                <form method="POST" action="{% url 'hide_show_event' this_event.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action_type" value="hide">
+                    <div class="modal-body">
+                        <div class="card-content">
+                            Are you sure that you want to hide and lock this event?
+                            No information will go lost if you hide and lock the event now.
+                            Everything is recoverable and the event can be unlocked at any time.
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <input type="submit" name="submit_login" class="btn btn-neutral btn-round btn-lg btn-block" value="{% trans 'Hide and lock the event' %}" style="color:#2CA8FF;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END show_hide_event_modal -->
+
+    <!-- START show_show_event_modal -->
+    <div class="modal fade modal-primary" id="show_event_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color:#2CA8FF;">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                    </button>
+                    <div class="header header-primary text-center">
+                        <h4 class="card-title">{% trans 'Unlock the event' %}</h4>
+                    </div>
+                </div>
+                <form method="POST" action="{% url 'hide_show_event' this_event.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action_type" value="show">
+                    <div class="modal-body">
+                        <div class="card-content">
+                        Do you want to unlock this event to the public?
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <input type="submit" name="submit_login" class="btn btn-neutral btn-round btn-lg btn-block" value="{% trans 'Unlock the event' %}" style="color:#2CA8FF;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END show_show_event_modal -->
+
+    <script type="text/javascript">
+    function show_hide_event_modal(){
+        $('#hide_event_modal').modal('show');
+    }
+    function show_show_event_modal(){
+        $('#show_event_modal').modal('show');
+    }
+    </script>
+    <!--  End Modal -->
+
+{% endblock body %}

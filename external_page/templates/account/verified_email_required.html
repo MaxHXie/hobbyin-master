@@ -1,0 +1,41 @@
+{% extends "landing_page.html" %}
+
+{% load i18n %}
+
+{% url 'account_email' as email_url %}
+
+{% block user_activation_modal %}
+<!-- User activation modal -->
+<div class="modal fade" id="user_activation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color:#2CA8FF;">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+                <div class="header header-primary text-center">
+                    <h4 class="card-title">{% trans 'Email not verified' %}</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="card-content text-center">
+                    <p>{% blocktrans %} This account does not seem to be verified {% endblocktrans %}</p>
+                    <p>{% blocktrans %}We have sent an email to you for
+                        verification. Click on the link that came with the email.
+                        Please contact us if you don't get the email within 5 minutes.{% endblocktrans %}.</p>
+                    <p>{% blocktrans %}<strong>Observe:</strong> You can still <a href="{{ email_url }}">change your email address.</a>.{% endblocktrans %}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-neutral btn-round btn-lg btn-block" data-dismiss="modal" style="color:#2CA8FF;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('#user_activation_modal').modal('show');
+});
+</script>
+<!--  End Modal -->
+{% endblock user_activation_modal %}

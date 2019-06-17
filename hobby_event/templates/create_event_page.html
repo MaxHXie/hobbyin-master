@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block bodyclass %}landing-page sidebar-collapse{% endblock bodyclass %}
+{% block body %}
+    {% include "html_parts/message_banner.html" %}
+    <!-- Navbar -->
+    {% include "html_parts/navbar1.html" with color_on_scroll="none" navbar_class=""%}
+    <div class="wrapper">
+        <div class="section section-contact-us text-center section-javascript" id="javascriptComponents">
+            <div class="container">
+                <h2 class="title" style="margin-bottom:64px;">
+                    {% if type == 'create' %}
+                        Create new event
+                    {% else %}
+                        Make changes to the event
+                    {% endif %}
+                </h2>
+                <div class="row">
+                    <div class="col-lg-6 text-center col-md-8 ml-auto mr-auto">
+                        {% include 'djangospam/form.html' %}
+                        <form id="edit_profile_form" action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% with field.field.widget.input_type as input_type %}
+                            {% if input_type == 'text' or input_type == 'number' %}
+
+                                <div id="inputs">
+                                    {% if field.name == 'event_name' %}
+                                        <div><strong>Name of the event</strong></div>
+                                    {% elif field.name == 'datetime' %}
+                                        <div><strong>Date and time (yyyy-mm-dd hh:mm)</strong></div>
+                                    {% elif field.name == 'city' %}
+                                        <div><strong>City</strong></div>
+                                    {% elif field.name == 'city_district' %}
+                                        <div><strong>Municipality</strong></div>
+                                    {% elif field.name == 'address' %}
+                                        <div><strong>Address</strong></div>
+                                    {% elif field.name == 'zip_code' %}
+                                        <div><strong>Zip code</strong></div>
+                                    {% elif field.name == 'location_name' %}
+                                        <div><strong>Name of the place</strong></div>
+                                    {% elif field.name == 'price' %}
+                                        <div><strong>Price</strong></div>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <span style="color:red; float:center;">{{ field.errors|first }}</span>
+                                        <div class="form-group has-danger">
+                                            <script type="text/javascript">
+                                                $(function(){
+                                                    $('#{{field.auto_id}}').addClass('form-control-danger');
+                                                    $('#{{field.auto_id}}').attr('placeholder', '{{ field.errors|first }}');
+                                                });
+                                            </script>
+                                            {{ field }}
+                                        </div>
+                                    {% else %}
+                                        <div class="input-group input-lg">
+                                            <span class="input-group-addon">
+                                                {% if field.name == 'event_name' %}
+                                                    <i class="now-ui-icons ui-1_send"></i>
+                                                {% elif field.name == 'datetime' %}
+                                                    <i class="now-ui-icons ui-1_calendar-60"></i>
+                                                {% elif field.name == 'city' %}
+                                                    <i class="now-ui-icons location_world"></i>
+                                                {% elif field.name == 'city_district' %}
+                                                    <i class="now-ui-icons location_compass-05"></i>
+                                                {% elif field.name == 'address' %}
+                                                    <i class="now-ui-icons location_pin"></i>
+                                                {% elif field.name == 'location_name' %}
+                                                    <i class="now-ui-icons shopping_shop"></i>
+                                                {% elif field.name == 'price' %}
+                                                    <i class="now-ui-icons business_money-coins"></i>
+                                                {% endif %}
+                                            </span>
+                                            {{ field }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            {% elif input_type == 'select' %}
+                                {% if field.errors %}
+                                    <span style="color:red">{{ field.errors|first }}</span>
+                                {% endif %}
+                                {{ field }}
+
+                            {% elif input_type == 'checkbox' or input_type == 'radio' %}
+                                {% if field.errors %}
+                                    <span style="color:red;">{{ field.errors|first }}</span>
+                                {% endif %}
+                                <div id="checkRadios">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <ul style="list-style:none; margin: 0px; margin-left:30px; padding: 0px;">
+                                            {% for alternative in field %}
+                                            <div class="checkbox">
+                                                <li>
+                                                    <label for="{{ field.auto_id }}">
+                                                        {{ alternative }}
+                                                    </label>
+                                                </li>
+                                            </div>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% elif input_type == "file" %}
+                                {% if field.name == "profile_picture" %}
+                                    <div class="textarea-container">
+                                        <h4> Upload a profile picture </h4>
+                                        {% if field.errors %}
+                                            <span style="color:red;">{{ field.errors|first }}</span>
+                                        {% endif %}
+                                            {{ field }}
+                                    </div>
+                                {% endif %}
+
+                            {% else %}
+                                {% if field.errors %}
+                                    <span style="color:red;">{{ field.errors|first }}</span>
+                                {% endif %}
+                                <div class="textarea-container">
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                            {% endwith %}
+                        {% endfor %}
+                        <div class="send-button">
+                            <a href="javascript:$('#edit_profile_form').submit();" class="btn btn-primary btn-round btn-block btn-lg">
+                                {% if type == 'create' %}
+                                    Skapa evenemang
+                                {% else %}
+                                    Ändra evenemang
+                                {% endif %}
+                            </a>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "html_parts/footer.html" %}
+    </div>
+<script>
+$(function(){
+    $("label[for='id_hobbies_0']").hide()
+});
+</script>
+{% endblock body %}

@@ -1,0 +1,84 @@
+{% load static %}
+{% load i18n %}
+<nav class="navbar navbar-expand-lg bg-primary fixed-top {{navbar_class|default:''}}" color-on-scroll="{{ color_on_scroll|default:'400' }}">
+    <div class="container">
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="{% url 'index' %}" rel="tooltip" data-placement="bottom">
+                <span style="font-size:1.5em;"><strong>HobbyIn</strong></span>
+            </a>
+            <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="{% static 'external_page/assets/img/blurred-image-1.jpg' %}">
+            <ul style="margin-right:16px;" class="navbar-nav">
+                {% if user.is_authenticated %}
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'my_profile' %}"><span style="font-size:1.3em;"><strong>My profile</strong></span></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'my_events' %}"><span style="font-size:1.3em;"><strong>My events</strong></span></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'all_events' %}"><span style="font-size:1.3em;"><strong>All events</strong></span></a>
+                      </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ HTTP_HOST }}/#our-offerings"><span style="font-size:1.3em;"><strong>Choose a hobby</strong></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'all_events' %}"><span style="font-size:1.3em;"><strong>All events</strong></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_login' %}"><span style="font-size:1.3em;"><strong>Log in</strong></span></a>
+                    </li>
+                {% endif %}
+                <!--
+                <li class="nav-item">
+                    <a class="nav-link" rel="tooltip" title="{% trans 'Följ oss på Twitter' %}" data-placement="bottom" href="https://twitter.com/" target="_blank">
+                        <i class="fa fa-twitter"></i>
+                        <p class="d-lg-none d-xl-none">Twitter</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" rel="tooltip" title="{% trans 'Gilla oss på Facebook' %}" data-placement="bottom" href="https://www.facebook.com/" target="_blank">
+                        <i class="fa fa-facebook-square"></i>
+                        <p class="d-lg-none d-xl-none">Facebook</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" rel="tooltip" title="{% trans 'Följ oss på Instagram' %}" data-placement="bottom" href="https://www.instagram.com/" target="_blank">
+                        <i class="fa fa-instagram"></i>
+                        <p class="d-lg-none d-xl-none">Instagram</p>
+                    </a>
+                </li>
+                -->
+            </ul>
+            <div class="dropdown button-dropdown" style="margin-right:45px;">
+                <a href="#pablo" class="dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">
+                    <span class="button-bar"></span>
+                    <span class="button-bar"></span>
+                    <span class="button-bar"></span>
+                </a>
+            {% if user.is_authenticated %}
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'my_events' %}">My events</a>
+                    <a class="dropdown-item" href="{% url 'create_event' %}">Create event</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'settings' %}">Account settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                </div>
+            {% else %}
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'instructor_signup' %}">Register an account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account_reset_password' %}">Forgotten password</a>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

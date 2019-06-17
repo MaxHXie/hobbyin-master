@@ -1,0 +1,42 @@
+{% extends "landing_page.html" %}
+
+{% load i18n %}
+
+{% block verification_sent_modal %}
+<!-- User activation modal -->
+<div class="modal fade" id="verification_sent_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color:#2CA8FF;">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+                <div class="header header-primary text-center">
+                    <h4 class="card-title">{% trans 'Verify your email' %}</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="card-content text-center">
+                    <p>{% blocktrans %}
+                        We have sent a email that you should follow in order to verify your account. <br />
+                        Follow the link in the email. <br />
+                        Contact us if you do not get the email within 5 minutes.
+                        {% endblocktrans %}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-neutral btn-round btn-lg btn-block" data-dismiss="modal" style="color:#2CA8FF;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('#verification_sent_modal').modal('show');
+});
+$("#verification_sent_modal").on("hidden.bs.modal", function () {
+    window.location = "{% url 'index' %}";
+});
+</script>
+<!--  End Modal -->
+{% endblock verification_sent_modal %}

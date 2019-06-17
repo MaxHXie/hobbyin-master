@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load my_filters %}
+
+{% block extra_css %}
+<style>
+* {
+    box-sizing: border-box;
+}
+
+#search-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#search-list li a {
+    border: 1px solid #ddd;
+    border-radius:4px 4px 4px 4px;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 3px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+#search-list li a:hover:not(.header) {
+    background-color: #e0e0e0;
+}
+</style>
+{% endblock extra_css %}
+
+{% block extra_head %}
+<script>
+function scroll_alt() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("search-hobby");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("search-list");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            if (li[i].id != "immune"){
+                li[i].style.display = "none";
+            }
+        }
+    }
+}
+
+function search_key_press(e) {
+    if(e.keyCode === 13){
+        e.preventDefault();
+        return false;
+    }
+}
+</script>
+{% endblock extra_head %}
+
+{% block bodyclass %}landing-page sidebar-collapse{% endblock bodyclass %}
+{% block body %}
+    <!-- Navbar -->
+    {% include "html_parts/navbar1.html" with color_on_scroll="400" navbar_class="" %}
+    <!-- End Navbar -->
+    {% include "html_parts/message_banner.html" %}
+
+    <div class="wrapper">
+        <div class="page-header page-header-medium">
+            <div class="page-header-image" data-parallax="true" style="background-image: url('{% static 'external_page/assets/img/bg6.jpg' %}');"></div>
+            <div class="container">
+                <div class="content-center">
+                    <div class="row">
+                        <div class="card card-login" data-background-color="orange">
+                            {% include 'djangospam/form.html' %}
+                            <form class="form" method="" action="{% url 'all_events' %}">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="input-group form-group-no-border">
+                                        <span class="input-group-addon">
+                                            <i class="now-ui-icons ui-1_zoom-bold"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="search-hobby" onkeyup="scroll_alt()" onkeypress="search_key_press(event)" placeholder="Search">
+                                    </div>
+                                    <ul id="search-list">
+                                        <li id="immune"><a href="{% url 'all_events' %}" style="color:#2CA8FF;">All events</a></li>
+                                    {% if hobbies != None %}
+                                        {% for hobby in hobbies %}
+                                            <li><a href="{% url 'all_events' %}?search_hobby_event={{ hobby.hobby_name }}" style="color:#3f3f3f">{{ hobby.hobby_name|title }}</a></li>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start our offerings section -->
+        <div class="section section-tabs" id="our-offerings">
+            <div class="container">
+                <div class="row">
+                {% for hobby in hobbies %}
+                    <div class="col-md-10 col-lg-8 col-xl-6 ml-auto mr-auto">
+                        <!-- Tabs with Background on Card -->
+                        <div class="card" style="cursor:pointer;" onclick="window.location='{% url 'all_events' %}?search_hobby_event={{ hobby.hobby_name }}'">
+                            <ul class="nav nav-tabs nav-tabs-neutral justify-content-center" role="tablist" data-background-color="orange">
+                                <li class="nav-item">
+                                    <a class="nav-link"><strong>{{ hobby.hobby_name|upper }}</strong></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active"><i class="now-ui-icons objects_spaceship"></i> {{ hobby_event_dictionary|lookup_dict:hobby.hobby_name|length }} Events</a>
+                                </li>
+                            </ul>
+                            <div class="card-body" style="height:250px; background-image: url('{% static 'external_page/assets/img/hobby/'|add:hobby.hobby_name|add:'_small_banner.jpg' %}');">
+                            </div>
+                        </div>
+                        <!-- End Tabs on plain Card -->
+                    </div>
+                {% if forloop.counter|divisibleby:2 %}
+                </div>
+                <div class="row">
+                {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- End our offerings section -->
+
+        {% block signup_form %}
+        {% endblock signup_form %}
+
+        <!-- Start work with us section -->
+        {% if user.is_authenticated %}
+        <div class="section section-contact-us text-center" id="work-with-us">
+            <div class="container">
+                <h2 class="title">{% trans 'You are not logged in as ' %}</h2>
+                <h3>{{ user.instructor.first_name }} {{ user.instructor.last_name }}</h3>
+                <div class="row">
+                    <div class="col-lg-6 text-center col-md-8 ml-auto mr-auto">
+                        <div class="send-button">
+                            <a href="{% url 'my_profile' %}" class="btn btn-primary btn-round btn-block btn-lg">{% trans 'To your profile' %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- End work with us section -->
+
+        <!-- Start modals -->
+        {% block user_activation_modal %}{% endblock user_activation_modal %}
+        {% block verification_sent_modal %}{% endblock verification_sent_modal %}
+        {% block signup_closed_modal %}{% endblock signup_closed_modal %}
+        {% block password_set_modal %}{% endblock password_set_modal %}
+        {% block password_reset_modal %}{% endblock password_reset_modal %}
+        {% block password_reset_from_key_modal %}{% endblock password_reset_from_key_modal %}
+        {% block password_reset_from_key_done_modal %}{% endblock password_reset_from_key_done_modal %}
+        {% block password_reset_done_modal %}{% endblock password_reset_done_modal %}
+        {% block email_confirm_modal %}{% endblock email_confirm_modal %}
+        {% block logout_modal %}{% endblock logout_modal %}
+        {% block account_inactive_modal %}{% endblock account_inactive_modal %}
+        <!-- End modals -->
+
+        {% include "html_parts/footer.html" %}
+    </div>
+{% endblock body %}

@@ -1,0 +1,186 @@
+[
+  { "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "user1",
+      "password": "password123"
+    }
+  },
+
+  { "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "user2",
+      "password": "password123"
+    }
+  },
+
+  { "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "user3",
+      "password": "password123"
+    }
+  },
+
+  {
+    "model": "external_page.hobby",
+    "pk": 1,
+    "fields": {
+      "hobby_name": "tennis"
+    }
+  },
+
+  {
+    "model": "external_page.hobby",
+    "pk": 2,
+    "fields": {
+      "hobby_name": "painting"
+    }
+  },
+
+  {
+    "model": "external_page.hobby",
+    "pk": 3,
+    "fields": {
+      "hobby_name": "flying"
+    }
+  },
+
+  {
+    "model": "external_page.hobby",
+    "pk": 4,
+    "fields": {
+      "hobby_name": "chess"
+    }
+  },
+
+  {
+    "model": "external_page.instructor",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "first_name":"Max",
+      "last_name":"Xie",
+      "hobbies":4,
+      "email":"max.xie@accenture.com",
+      "telephone":"0761678737",
+      "city":"Stockholm ",
+      "city_district":"Stockholm",
+      "zip_code":"19141",
+      "description":"Accenture Technology IES. Associate.",
+      "gender":"M"
+    }
+  },
+
+  {
+    "model": "external_page.instructor",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "first_name":"Filippa",
+      "last_name":"Göransson",
+      "hobbies":3,
+      "email":"filippa.goransson@accenture.com",
+      "telephone":"0738273712",
+      "city":"Stockholm ",
+      "city_district":"Stockholm",
+      "zip_code":"13121",
+      "description":"Accenture Technology IES. Manager.",
+      "gender":"F"
+    }
+  },
+
+  {
+    "model": "external_page.instructor",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "first_name":"Malek",
+      "last_name":"Zbadi",
+      "hobbies":2,
+      "email":"malek.zbadi@accenture.com",
+      "telephone":"0729381298",
+      "city":"Stockholm ",
+      "city_district":"Stockholm",
+      "zip_code":"15381",
+      "description":"Accenture Technology IES. Analyst.",
+      "gender":"M"
+    }
+  },
+
+  {
+    "model": "hobby_event.hobbyevent",
+    "pk": 1,
+    "fields": {
+      "event_host":1,
+      "hobby":4,
+      "event_name":"Chess and pizza",
+      "datetime":"2020-03-16T17:41:28+00:00",
+      "city":"Stockholm",
+      "city_district":"Kungsholmen",
+      "zip_code":"112 47",
+      "address":"Alstömergatan 12",
+      "location_name":"Ljusgården",
+      "price":0,
+      "description":"Come and enjoy a nice evenign with chess and pizza, we guarantee that people are going to have a very nice time.",
+      "is_active":true,
+      "is_accepted":true,
+      "is_hidden":false,
+      "event_color_red":200,
+      "event_color_green":130,
+      "event_color_blue":130,
+      "created_time":"2019-06-14T17:41:28+00:00"
+    }
+  },
+
+  {
+    "model": "hobby_event.hobbyevent",
+    "pk": 2,
+    "fields": {
+      "event_host":2,
+      "hobby":3,
+      "event_name":"Tennis lessons for people who want to participate in that",
+      "datetime":"2020-10-30T17:41:28+00:00",
+      "city":"Stockholm",
+      "city_district":"Helenelund",
+      "zip_code":"191 41",
+      "address":"Granvägen 18C",
+      "location_name":"Helenelund Tennishall",
+      "price":700,
+      "description":"Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet.",
+      "is_active":true,
+      "is_accepted":true,
+      "is_hidden":false,
+      "event_color_red":130,
+      "event_color_green":130,
+      "event_color_blue":200,
+      "created_time":"2019-06-14T17:41:28+00:00"
+    }
+  },
+
+  {
+    "model": "hobby_event.hobbyevent",
+    "pk": 3,
+    "fields": {
+      "event_host":3,
+      "hobby":2,
+      "event_name":"Gaming and painting with the Accenture people at in a nice place",
+      "datetime":"2020-06-12T17:41:28+00:00",
+      "city":"Stockholm",
+      "city_district":"Kungsholmen",
+      "zip_code":"112 47",
+      "address":"Johan Enbergs Väg 28",
+      "location_name":"Spel- och målericenter för saker",
+      "price":300,
+      "description":" Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet. Lorem ipsum dolor sit amet. Lorem isum dolor sit amet.",
+      "is_active":true,
+      "is_accepted":true,
+      "is_hidden":false,
+      "event_color_red":130,
+      "event_color_green":200,
+      "event_color_blue":130,
+      "created_time":"2019-06-14T17:41:28+00:00"
+    }
+  }
+]

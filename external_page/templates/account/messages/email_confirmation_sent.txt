@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktrans %} Verification mail has been sent to: {{email}}.{% endblocktrans %}

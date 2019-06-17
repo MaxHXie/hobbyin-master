@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block bodyclass %}landing-page sidebar-collapse{% endblock bodyclass %}
+{% block body %}
+    {% include "html_parts/message_banner.html" %}
+    <!-- Navbar -->
+    {% include "html_parts/navbar1.html" with color_on_scroll="none" navbar_class=""%}
+    <div class="wrapper">
+        <div class="section section-contact-us text-center">
+            <div class="container">
+                <h2 class="title">Account settings</h2>
+                <div class="row">
+                    <div class="col-lg-6 text-center col-md-8 ml-auto mr-auto">
+                        <h4><a href="{% url 'account_change_password' %}">Change password here</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "html_parts/footer.html" %}
+    </div>
+<script>
+$(function(){
+    $("label[for='id_hobbies_0']").hide()
+});
+</script>
+{% block password_change_modal %}{% endblock password_change_modal %}
+{% endblock body %}

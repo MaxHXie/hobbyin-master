@@ -1,0 +1,73 @@
+{% extends "landing_page.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% get_providers as socialaccount_providers %}
+
+{% block bodyclass %}login-page sidebar-collapse{% endblock bodyclass %}
+{% block body %}
+    <!-- Navbar -->
+    {% include "html_parts/navbar1.html" with color_on_scroll="none" navbar_class=""%}
+    {% include "html_parts/message_banner.html" %}
+    <!-- End Navbar -->
+    <div class="page-header" filter-color="orange">
+        <div class="page-header-image" style="background-image:url({% static 'external_page/assets/img/login.jpg')"></div>
+        <div class="container">
+            <div class="col-md-4 content-center">
+                <div class="card card-login card-plain">
+                    {% include 'djangospam/form.html' %}
+                    <form class="form" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        <div class="header header-primary text-center">
+                            <div class="logo-container">
+                                <img src="{% static 'external_page/assets/img/now-logo.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div style="margin-bottom:30px;">
+                            <div><a class="button secondaryAction" href="{% url 'instructor_signup' %}" style="color:#2CA8FF;">{% trans "Register an account" %}</a></div>
+                            <!-- <div><a class="button secondaryAction" href="{% url 'customer_signup' %}" style="color:#F96332;">{% trans "Registrera dig som hobbyist" %}</a></div> -->
+                        </div>
+                        <div class="content">
+                            {% for error_field, error_message in form.errors.items %}
+                                {{error_message}}
+                            {% endfor %}
+                            {% for field in form %}
+                            <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                  {% if field.name == "login" %}
+                                    <i class="now-ui-icons ui-1_email-85"></i>
+                                  {% elif field.name == "password" %}
+                                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
+                                  {% endif %}
+                                </span>
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+                            {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                            {% endif %}
+                            <div color="black"><a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgotten password?" %}</a></div>
+                        </div>
+                        <div class="footer text-center">
+                            <input type="submit" class="btn btn-primary btn-round btn-lg btn-block" value="{% trans 'Logga in' %}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block extra_head %}
+<script type="text/javascript">
+function initialize_form() {
+    {% for field in form %}
+        $("#id_{{field.name}}").addClass('form-control');
+    {% endfor %}
+    {% for error_field, error_message in form.errors.items %}
+        $("#id_{{error_field.name}}").addClass('form-control-danger');
+    {% endfor %}
+}
+window.onload = initialize_form;
+</script>
+{% endblock extra_head %}
