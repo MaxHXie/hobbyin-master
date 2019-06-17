@@ -43,6 +43,7 @@ idna==2.7
 oauthlib==2.1.0
 paramiko==2.4.1
 Pillow==5.2.0
+psycopg2==2.8.3
 pyasn1==0.4.3
 pycparser==2.18
 PyNaCl==1.2.1
