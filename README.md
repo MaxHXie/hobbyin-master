@@ -2,6 +2,22 @@
 ---------------
 Author: Max Xie, max.xie@accenture.com
 
+# About the project
+---------------
+This website is an event management platform. Where people can create events based on different hobbies and other users can RSVP to these events. Functionalities include:
+*Creating and editing events
+*Managing guestlist
+*All users have and can manage their profile page
+*Having profiles
+*Messaging each other
+*Signup and login
+*Email verification
+*Password recovery
+*Email notifications
+*Edit user
+*Comprehensive information about events
+*Searching for events
+
 # Openshift Deployment (Using the user interface)
 ---------------
 1. Start a project and name it whatever you like
