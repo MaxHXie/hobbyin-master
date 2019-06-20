@@ -62,6 +62,7 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 Wait until image is done building
 ```
 ...> oc new-app hobbyin-master:latest
+...> oc expose svc/hobbyin-master
 ```
 5. The application should now be up and running.
 
@@ -76,4 +77,5 @@ oc start-build hobbyin-master
 Wait until image is done building
 ```
 oc new-app hobbyin-master:latest
+oc expose svc/hobbyin-master
 ```
