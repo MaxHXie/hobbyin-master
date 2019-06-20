@@ -18,7 +18,7 @@ This website is an event management platform. Where people can create events bas
 * Comprehensive information about events
 * Searching for events
 
-# Openshift Deployment (Using the user interface)
+# Openshift Deployment (Using web console)
 ---------------
 1. Start a project and name it whatever you like
 2. Choose "Browse Catalog"
@@ -46,5 +46,30 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 ```
 
 10. Access the exposed application url and hopefully everything is set up and working.
+
+# Openshift deployment (Using CLI)
+---------------
+1. Pull repository and in local folder
+2. Navigate to that folder in Powershell or Command Line
+3. ...> oc login ...
+4. ...> oc new-project hobbyin-master
+5. ...> oc create imagestream hobbyin-master
+6. ...> oc apply -f hobbyin-master.yaml
+7. ...> oc start-build hobbyin-master
+8. ...> Wait until image is done building
+9. ...> oc new-app hobbyin-master:latest
+10. The application should now be up and running.
+
+## Copy pasteable version (Starting from step 3.)
+
+oc new-project hobbyin-master
+oc create imagestream hobbyin-master
+oc apply -f hobbyin-master.yaml
+oc start-build hobbyin-master
+
+//Wait until image is done building
+
+oc new-app hobbyin-master:latest
+
 
 /Max
