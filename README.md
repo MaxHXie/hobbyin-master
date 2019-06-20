@@ -59,8 +59,21 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 ...> oc apply -f hobbyin-master.yaml
 ...> oc start-build hobbyin-master
 ```
-#Wait until image is done building
+Wait until image is done building
 ```
 ...> oc new-app hobbyin-master:latest
 ```
 5. The application should now be up and running.
+
+### Copy pasteable version
+
+```
+oc new-project hobbyin-master
+oc create imagestream hobbyin-master
+oc apply -f hobbyin-master.yaml
+oc start-build hobbyin-master
+```
+Wait until image is done building
+```
+oc new-app hobbyin-master:latest
+```
