@@ -49,7 +49,7 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 
 # Openshift deployment (Using CLI)
 ---------------
-1. Pull repository and in local folder
+1. Pull repository and store in a local folder
 2. Navigate to that folder in Powershell or Command Line
 3. ...> oc login ...
 4. ...> oc new-project hobbyin-master
