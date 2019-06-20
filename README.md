@@ -63,11 +63,11 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 ## Copy pasteable version (Starting from step 3.)
 
 oc new-project hobbyin-master<br />
-oc create imagestream hobbyin-master
-oc apply -f hobbyin-master.yaml
-oc start-build hobbyin-master
+oc create imagestream hobbyin-master<br />
+oc apply -f hobbyin-master.yaml<br />
+oc start-build hobbyin-master<br />
 
-//Wait until image is done building
+`Wait until image is done building`
 
 oc new-app hobbyin-master:latest
 
