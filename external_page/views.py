@@ -115,7 +115,7 @@ def profile_with_user(request, user_id):
             messages.error(request, 'Your account is inactive, contact maxhxie@gmail.com for help or more information.')
             return logout(request)
 
-        this_user = functions.get_this_user(request)
+    this_user = functions.get_this_user(request)
 
     try:
         user = User.objects.get(pk=user_id)
@@ -134,7 +134,6 @@ def profile_with_user(request, user_id):
         return render(request, 'profile_page.html', context={'spam_uri': 'https://www.spelapaintball.com/#wpcf7-f2197-o1'})
 
     return render(request, 'profile_page.html', context={'profile':profile, 'this_user': this_user, 'spam_uri': 'https://www.spelapaintball.com/#wpcf7-f2197-o1'})
-
 
 def send_instructor_message(request, user_id, hobby):
     try:
