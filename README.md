@@ -62,7 +62,7 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 
 ## Copy pasteable version (Starting from step 3.)
 
-oc new-project hobbyin-master
+oc new-project hobbyin-master<br />
 oc create imagestream hobbyin-master
 oc apply -f hobbyin-master.yaml
 oc start-build hobbyin-master
