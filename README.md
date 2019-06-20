@@ -60,7 +60,7 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 9. ...> oc new-app hobbyin-master:latest
 10. The application should now be up and running.
 
-## Copy pasteable version (Starting from step 3.)
+### Copy pasteable version (Starting from step 3.)
 
 oc new-project hobbyin-master<br />
 oc create imagestream hobbyin-master<br />
