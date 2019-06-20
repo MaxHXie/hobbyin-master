@@ -51,25 +51,16 @@ commit 070ac056f3f223ddcee565cf9e811f16128c7b16
 ---------------
 1. Pull repository and store in a local folder
 2. Navigate to that folder in Powershell or Command Line
-3. ...> oc login ...
-4. ...> oc new-project hobbyin-master
-5. ...> oc create imagestream hobbyin-master
-6. ...> oc apply -f hobbyin-master.yaml
-7. ...> oc start-build hobbyin-master
-8. ...> Wait until image is done building
-9. ...> oc new-app hobbyin-master:latest
-10. The application should now be up and running.
-
-### Copy pasteable version (Starting from step 3.)
-
-oc new-project hobbyin-master<br />
-oc create imagestream hobbyin-master<br />
-oc apply -f hobbyin-master.yaml<br />
-oc start-build hobbyin-master<br />
-
-`Wait until image is done building`
-
-oc new-app hobbyin-master:latest
-
-
-/Max
+3. `...> oc login ...`
+4. Enter the following commands
+```
+...> oc new-project hobbyin-master
+...> oc create imagestream hobbyin-master
+...> oc apply -f hobbyin-master.yaml
+...> oc start-build hobbyin-master
+```
+#Wait until image is done building
+```
+...> oc new-app hobbyin-master:latest
+```
+5. The application should now be up and running.
