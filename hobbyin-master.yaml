@@ -21,6 +21,9 @@ spec:
       uri: 'https://github.com/MaxHXie/hobbyin-master/'
     type: Git
   strategy:
+    triggers:
+        - imageChange:
+            type: ImageChange
     sourceStrategy:
       from:
         kind: ImageStreamTag
